@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+// protoc --go_out=plugins=grpc:. *.proto
+
+package page_api;
+
+// Templates
+enum LayoutType {
+    empty = 0;
+    desktop = 1;
+    mobile = 2;
+    adaptive = 3;
+}
+
+message Template {
+    int32 id = 1;
+    string name = 2;
+    int32 offer_id = 3;
+    int32 type = 4;
+    int32 layout_type = 5;
+    string content = 6;
+    string uuid = 7;
+    bool is_my_target = 8;
+    string transited_url = 9;
+    int32 status = 10;
+    int32 visibility = 11;
+}
+
+message ListTemplatesRequest {
+    repeated int32 id = 1;
+    int32 type = 2;
+    string name = 3;
+    repeated int32 offer_ids = 4;
+    int32 affiliate_id = 5;
+    int32 limit = 6;
+    int32 offset = 7;
+}
+
+message ListTemplatesResponse {
+    repeated Template templates = 1;
+    int32 total_count = 2;
+}
+
+// Stream
+message Stream {
+    int32 id = 1;
+
+    string type = 2;
+
+    int32 user_id = 3;
+    int32 offer_id = 4;
+
+    string name = 5;
+    string code = 6;
+
+    StreamPageOptions prelanding_options = 7;
+    StreamPageOptions landing_options = 8;
+    StreamPageOptions thanks_options = 9;
+
+    string traffic_back_url = 10;
+    bool is_my_target = 11;
+
+    string sub1 = 12;
+    string sub2 = 13;
+    string sub3 = 14;
+    string sub4 = 15;
+    string sub5 = 16;
+
+    repeated string geo_code = 17;
+
+    string currency = 18;
+}
+
+message StreamPageOptions {
+    string sub_domain = 1;
+    string domain = 2;
+    bool is_parking = 3;
+    repeated int32 templates = 4;
+    string script = 5;
+}
+
+message GetStreamRequest {
+    string code = 1;
+}
+
+service PageApi {
+    rpc ListTemplates (ListTemplatesRequest) returns (ListTemplatesResponse) {}
+    rpc GetStream (GetStreamRequest) returns (Stream) {}
+}
