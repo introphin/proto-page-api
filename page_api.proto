@@ -4,6 +4,8 @@ syntax = "proto3";
 
 package page_api;
 
+import "google/protobuf/empty.proto";
+
 // Templates
 enum LayoutType {
     empty = 0;
@@ -83,7 +85,12 @@ message GetStreamRequest {
     string code = 1;
 }
 
+message DeleteRowFromTemplateRequest {
+    string row = 1;
+}
+
 service PageApi {
     rpc ListTemplates (ListTemplatesRequest) returns (ListTemplatesResponse) {}
     rpc GetStream (GetStreamRequest) returns (Stream) {}
+    rpc DeleteRowFromTemplate (DeleteRowFromTemplateRequest) returns (google.protobuf.Empty) {}
 }
